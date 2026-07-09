@@ -16,6 +16,8 @@ class InsertarUsuarioUseCase(
         fecharegistro: String,
     ) {
         if (nombre.isBlank()) throw Exception("Nombre vacío")
+        if (dni.isBlank()) throw Exception("Dni vacía")
+        if (telefono.isBlank()) throw Exception("Telefono vacía")
         if (correo.isBlank()) throw Exception("Correo vacío")
         if (password.isBlank()) throw Exception("Contraseña vacía")
 

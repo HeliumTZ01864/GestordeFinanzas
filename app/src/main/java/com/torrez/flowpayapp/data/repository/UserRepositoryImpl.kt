@@ -4,51 +4,55 @@ import com.torrez.flowpayapp.data.mapper.toDomain
 import com.torrez.flowpayapp.data.remote.datasource.RemoteDataSource
 import com.torrez.flowpayapp.data.remote.dto.CreateUserRequest
 import com.torrez.flowpayapp.data.remote.dto.UpdateUserRequest
-import com.torrez.flowpayapp.domain.model.User
-import com.torrez.flowpayapp.domain.repository.UserRepository
 
-class UserRepositoryImpl(private val remoteDataSource: RemoteDataSource) : UserRepository {
+import com.torrez.flowpayapp.domain.model.Usuario
+import com.torrez.flowpayapp.domain.repository.UsuarioRepository
 
-    override suspend fun getUsers(): List<User> {
+class UserRepositoryImpl(private val remoteDataSource: RemoteDataSource) : UsuarioRepository {
+
+    override suspend fun getUsuarios(): List<Usuario> {
+        return remoteDataSource.getUsers()
+            ?.data
+            ?.items
+            ?.map { it.toDomain()
+            }
+            ?:emptyList()
+    }
+
+    override suspend fun getUsuarioById(id: String): Usuario {
         return remoteDataSource
-            .getUsers()
-            .items
-            .map { it.toDomain() }
+            .getUserById(id)?.toDomain() ?: throw Exception("Usuario no encontrado")
     }
 
-    override suspend fun getUserById(id: String): User {
-        return remoteDataSource
-            .getUserById(id)
-            .data
-            .toDomain()
-    }
-
-    override suspend fun addUser(
-        nombre: String,
-        dni: String,
-        telefono: String,
-        correo: String,
-        password: String
-    ) {
-        remoteDataSource.createUser(CreateUserRequest(nombre = nombre, dni = dni,telefono = telefono
-            ,correo = correo, password = password, fecharegistro = ""))
-    }
-
-    override suspend fun updateUser(
+    override suspend fun addUsuario(
         id: String,
         nombre: String,
         dni: String,
         telefono: String,
         correo: String,
-        password: String
+        password: String,
+        fecharegistro: String
+    ) {
+        remoteDataSource.createUser(CreateUserRequest( nombre, dni, telefono
+            , correo,  password, ""))
+    }
+
+    override suspend fun updateUsuario(
+        id: String,
+        nombre: String,
+        dni: String,
+        telefono: String,
+        correo: String,
+        password: String,
+        fecharegistro: String
     ) {
         remoteDataSource.updateUser(
             id,
-            UpdateUserRequest(nombre = nombre,dni = dni,telefono = telefono,correo = correo,password = password,
-                fecharegistro = ""))
+            UpdateUserRequest(nombre, dni, telefono, correo, password,
+                 ""))
     }
 
-    override suspend fun deleteUser(id: String) {
+    override suspend fun deleteUsuario(id: String) {
         remoteDataSource.deleteUser(id)
     }
 }

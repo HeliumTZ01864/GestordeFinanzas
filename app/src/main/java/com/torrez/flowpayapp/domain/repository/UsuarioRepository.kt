@@ -31,5 +31,5 @@ interface UsuarioRepository {
 
     suspend fun deleteUsuario(id: String)
 
-    suspend fun login(mail: String, psw: String): Usuario?
+    //suspend fun login(mail: String, psw: String): Usuario?
 }
