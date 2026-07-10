@@ -68,6 +68,16 @@ class UserRepositoryImpl(private val remoteDataSource: RemoteDataSource) : Usuar
         mail: String,
         psw: String
     ): Usuario? {
-        return getAll().firstOrNull { it.correo == mail && it.password == psw }
+        val correoNormalizado = mail
+            .trim()
+            .lowercase()
+
+        return getAll().firstOrNull { usuario ->
+
+            usuario.correo
+                .trim()
+                .lowercase() == correoNormalizado &&
+                    usuario.password == psw
+        }
     }
 }
