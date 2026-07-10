@@ -55,4 +55,18 @@ class UserRepositoryImpl(private val remoteDataSource: RemoteDataSource) : Usuar
     override suspend fun deleteUsuario(id: String) {
         remoteDataSource.deleteUser(id)
     }
+
+    suspend fun getAll(): List<Usuario> =
+        remoteDataSource.getUsers()
+            ?.data
+            ?.items
+            ?.map { it.toDomain() }
+            ?: emptyList()
+
+    override suspend fun login(
+        mail: String,
+        psw: String
+    ): Usuario? {
+        return getAll().firstOrNull { it.correo == mail && it.password == psw }
+    }
 }

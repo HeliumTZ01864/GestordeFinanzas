@@ -11,6 +11,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.torrez.flowpayapp.core.navigation.NavRoutes
 
 @Composable
 fun AppBottomBar(navController: NavController){
@@ -40,7 +41,7 @@ fun AppBottomBar(navController: NavController){
             selected = false,
             onClick = {
                 navController.navigate(
-                    NavRoutes.Reporte
+                    NavRoutes.REPORTE
                 )
             },
 
@@ -60,7 +61,7 @@ fun AppBottomBar(navController: NavController){
             selected = false,
             onClick = {
                 navController.navigate(
-                    NavRoutes.Perfil
+                    NavRoutes.PERFIL
                 )
             },
 
