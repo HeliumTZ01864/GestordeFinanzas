@@ -1,7 +1,7 @@
 package com.torrez.flowpayapp.di
 
 class ViewModelModule(private val useCaseModule: UseCaseModule) {
-
+/*
     fun provideHomeViewModel(): HomeViewModel {
         return HomeViewModel(useCaseModule.usuarioUseCaseModule)
     }
@@ -16,5 +16,5 @@ class ViewModelModule(private val useCaseModule: UseCaseModule) {
         return EditUserViewModel(
             useCaseModule.usuarioUseCaseModule
         )
-    }
+    }*/
 }

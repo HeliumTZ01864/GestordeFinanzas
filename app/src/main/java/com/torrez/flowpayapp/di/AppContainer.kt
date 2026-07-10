@@ -1,5 +1,8 @@
 package com.torrez.flowpayapp.di
 
+import com.torrez.flowpayapp.presentation.screens.Login.LoginViewModel
+import com.torrez.flowpayapp.presentation.screens.Perfil.PerfilViewModel
+
 class AppContainer {
     private val networkModule by lazy {
         NetworkModule()
@@ -30,5 +33,12 @@ class AppContainer {
 
     val editUserViewModel by lazy {
         //EditUserViewModel(useCaseModule.usuarioUseCaseModule)
+    }
+    val perfilModelModule by lazy {
+        PerfilViewModel(useCaseModule.usuarioUseCaseModule)
+    }
+
+    val loginModelModule by lazy {
+        LoginViewModel(useCaseModule.usuarioUseCaseModule)
     }
 }
