@@ -12,6 +12,7 @@ import com.torrez.flowpayapp.presentation.screens.Home.HomeScreen
 import com.torrez.flowpayapp.presentation.screens.Inicio.InicialScreen
 import com.torrez.flowpayapp.presentation.screens.Login.LoginScreen
 import com.torrez.flowpayapp.presentation.screens.Perfil.PerfilScreen
+import com.torrez.flowpayapp.presentation.screens.Registro.RegistroScreen
 import com.torrez.flowpayapp.presentation.screens.Reportes.ReportesScreen
 
 @Composable
@@ -26,19 +27,22 @@ fun AppNavigation(
         modifier = Modifier.padding(padding)
     ){
         composable (NavRoutes.INICIO){
-            InicialScreen(onStartClick = {})
+            InicialScreen(onStartClick = { navController.navigate(NavRoutes.LOGIN)})
         }
         composable (NavRoutes.LOGIN){
             LoginScreen(vm = container.loginModelModule, navController)
         }
         composable (NavRoutes.HOME){
-            HomeScreen(navController)
+            HomeScreen()
         }
         composable (NavRoutes.REPORTE){
             ReportesScreen(navController)
         }
         composable (NavRoutes.PERFIL){
             PerfilScreen(vm = container.perfilModelModule, navController)
+        }
+        composable (NavRoutes.REGISTRO){
+            RegistroScreen(navController,container.addUserViewModel)
         }
 
     }

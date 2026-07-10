@@ -70,83 +70,12 @@ fun PerfilScreen(
         return
     }
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Perfil",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
 
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF212020),
-                    scrolledContainerColor = Color.Unspecified,
-                    navigationIconContentColor = Color.Unspecified,
-                    titleContentColor = Color.Unspecified,
-                    actionIconContentColor = Color.Unspecified
-                ),
-
-                modifier = Modifier.clip(
-                    RoundedCornerShape(
-                        bottomStart = 24.dp,
-                        bottomEnd = 24.dp
-                    )
-                )
-            )
-        },
-
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = false,
-                    onClick = {
-                        navController.navigate("home")
-                    },
-                    icon = {
-                        Icon(Icons.Default.Home, null)
-                    },
-                    label = {
-                        Text("Inicio")
-                    }
-                )
-
-                NavigationBarItem(
-                    selected = false,
-                    onClick = {
-                        navController.navigate("reportes")
-                    },
-                    icon = {
-                        Icon(Icons.AutoMirrored.Filled.ShowChart, null)
-                    },
-                    label = {
-                        Text("Reportes")
-                    }
-                )
-
-                NavigationBarItem(
-                    selected = true,
-                    onClick = {
-                        navController.navigate("perfil")
-                    },
-                    icon = {
-                        Icon(Icons.Default.Person, null)
-                    },
-                    label = {
-                        Text("Perfil")
-                    }
-                )
-            }
-
-        }
-    ) {innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFF121212))
-                .padding(innerPadding)
+
                 .verticalScroll(rememberScrollState())
                 .padding(18.dp),
 
@@ -233,7 +162,7 @@ fun PerfilScreen(
             }
         }
     }
-}
+
 
 
 @Composable

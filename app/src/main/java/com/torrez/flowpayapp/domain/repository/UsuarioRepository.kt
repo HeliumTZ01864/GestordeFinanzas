@@ -9,7 +9,6 @@ interface UsuarioRepository {
     suspend fun getUsuarioById(id: String): Usuario
 
     suspend fun addUsuario(
-        id: String,
         nombre: String,
         dni: String,
         telefono: String,

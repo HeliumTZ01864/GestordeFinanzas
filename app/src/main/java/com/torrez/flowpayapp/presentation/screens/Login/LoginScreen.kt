@@ -73,15 +73,9 @@ fun LoginScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(snackbarHostState)
-        }
-    ) { paddingValues ->
 
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
         ) {
 
@@ -165,7 +159,7 @@ fun LoginScreen(
 
                     TextButton(
                         onClick = {
-                            navController.navigate("registro")
+                            navController.navigate(NavRoutes.REGISTRO)
                         }
                     ) {
                         Text("Registrarse")
@@ -203,4 +197,3 @@ fun LoginScreen(
             }
         }
     }
-}

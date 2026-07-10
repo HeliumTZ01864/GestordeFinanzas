@@ -53,7 +53,7 @@ fun AppBottomBar(navController: NavController){
             },
 
             label = {
-                Text("Inicio")
+                Text("Reporte")
             }
         )
         //Perfil
@@ -73,7 +73,7 @@ fun AppBottomBar(navController: NavController){
             },
 
             label = {
-                Text("Inicio")
+                Text("Perfil")
             }
         )
     }

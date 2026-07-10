@@ -24,7 +24,7 @@ class ActualizarUsuarioUseCase(
 
         // Invocamos el método del nuevo repositorio
         repository.updateUsuario(
-            id=id,
+            id = id,
             nombre=nombre,
             dni=dni,
             telefono=telefono,

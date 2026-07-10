@@ -19,13 +19,12 @@ fun UsuarioForm(
     telefono: String,
     correo: String,
     password: String,
-    fecharegistro: String,
     onNombreChange: (String) -> Unit,
     onDniChange: (String) -> Unit,
     onTelefonoChange: (String) -> Unit,
     onCorreoChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onFechaRegistroChange: (String) -> Unit
+
 ){
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -85,17 +84,6 @@ fun UsuarioForm(
             modifier = Modifier.fillMaxWidth()
         )
 
-        OutlinedTextField(
-            value = fecharegistro,
-            onValueChange = onFechaRegistroChange,
-            label = {
-                Text("Fecha de Registro")
-            },
-            placeholder = {
-                Text("dd/MM/yyyy")
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
 
         Spacer(
             modifier = Modifier.height(8.dp)

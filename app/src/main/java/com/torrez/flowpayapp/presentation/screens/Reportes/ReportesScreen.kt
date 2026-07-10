@@ -96,83 +96,12 @@ fun ReportesScreen(
 
     val backgroundColor = Color(0xFF464444)
     val cardColor = Color(0xFFA7A7A7)
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Reportes",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
 
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF212020),
-                    scrolledContainerColor = Color.Unspecified,
-                    navigationIconContentColor = Color.Unspecified,
-                    titleContentColor = Color.Unspecified,
-                    actionIconContentColor = Color.Unspecified
-                ),
-
-                modifier = Modifier.clip(
-                    RoundedCornerShape(
-                        bottomStart = 24.dp,
-                        bottomEnd = 24.dp
-                    )
-                )
-            )
-        },
-
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = false,
-                    onClick = {
-                        navController.navigate("home")
-                    },
-                    icon = {
-                        Icon(Icons.Default.Home, null)
-                    },
-                    label = {
-                        Text("Inicio")
-                    }
-                )
-
-                NavigationBarItem(
-                    selected = true,
-                    onClick = {
-                        navController.navigate("reportes")
-                    },
-                    icon = {
-                        Icon(Icons.AutoMirrored.Filled.ShowChart, null)
-                    },
-                    label = {
-                        Text("Reportes")
-                    }
-                )
-
-                NavigationBarItem(
-                    selected = false,
-                    onClick = {
-                        navController.navigate("perfil")
-                    },
-                    icon = {
-                        Icon(Icons.Default.Person, null)
-                    },
-                    label = {
-                        Text("Perfil")
-                    }
-                )
-            }
-
-        }
-    ) {innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(backgroundColor)
-                .padding(innerPadding)
+
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
@@ -212,7 +141,7 @@ fun ReportesScreen(
             Spacer(modifier = Modifier.height(24.dp))
         }
     }
-}
+
 
 @Composable
 fun SectionTitle(text: String) {

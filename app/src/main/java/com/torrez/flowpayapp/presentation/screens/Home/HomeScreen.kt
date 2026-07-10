@@ -51,91 +51,17 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController
+    
 ) {
 
     var esGasto by remember {
         mutableStateOf(true)
     }
 
-    Scaffold(
 
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Inicio",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF212020),
-                    scrolledContainerColor = Color.Unspecified,
-                    navigationIconContentColor = Color.Unspecified,
-                    titleContentColor = Color.Unspecified,
-                    actionIconContentColor = Color.Unspecified
-                ),
-
-                modifier = Modifier.clip(
-                    RoundedCornerShape(
-                        bottomStart = 24.dp,
-                        bottomEnd = 24.dp
-                    )
-                )
-            )
-        },
-
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = true,
-                    onClick = {
-                        navController.navigate("home")
-                    },
-                    icon = {
-                        Icon(Icons.Default.Home, null)
-                    },
-                    label = {
-                        Text("Inicio")
-                    }
-                )
-
-                NavigationBarItem(
-                    selected = false,
-                    onClick = {
-                        navController.navigate("reportes")
-                    },
-                    icon = {
-                        Icon(Icons.Default.ShowChart, null)
-                    },
-                    label = {
-                        Text("Reportes")
-                    }
-                )
-
-                NavigationBarItem(
-                    selected = false,
-                    onClick = {
-                        navController.navigate("perfil")
-                    },
-                    icon = {
-                        Icon(Icons.Default.Person, null)
-                    },
-                    label = {
-                        Text("Perfil")
-                    }
-                )
-            }
-
-        }
-
-    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
 
@@ -287,7 +213,7 @@ fun HomeScreen(
             }
         }
     }
-}
+
 
 @Composable
 fun CategoriaItem(
