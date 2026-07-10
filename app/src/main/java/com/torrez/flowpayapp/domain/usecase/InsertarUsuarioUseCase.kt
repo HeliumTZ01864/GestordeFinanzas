@@ -7,7 +7,6 @@ class InsertarUsuarioUseCase(
 ) {
 
     suspend operator fun invoke(
-        id: String,
         nombre: String,
         dni: String,
         telefono: String,
@@ -22,7 +21,6 @@ class InsertarUsuarioUseCase(
         if (password.isBlank()) throw Exception("Contraseña vacía")
 
         repository.addUsuario(
-            id,
             nombre,
             dni,
             telefono,

@@ -11,37 +11,43 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.torrez.flowpayapp.core.navigation.AppNavigation
+import com.torrez.flowpayapp.presentation.components.AppScaffold
 import com.torrez.flowpayapp.ui.theme.FlowPayAppTheme
 
 class MainActivity : ComponentActivity() {
+    private val container by lazy {
+        (application as FlowAplication).container
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             FlowPayAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                val navController =
+                    rememberNavController()
+
+                AppScaffold(
+
+                    navController =
+                        navController
+
+                ) { padding ->
+
+                    AppNavigation(
+
+                        navController =
+                            navController,
+
+                        container =
+                            container,
+
+                        padding =
+                            padding
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FlowPayAppTheme {
-        Greeting("Android")
     }
 }

@@ -9,7 +9,6 @@ interface UsuarioRepository {
     suspend fun getUsuarioById(id: String): Usuario
 
     suspend fun addUsuario(
-        id: String,
         nombre: String,
         dni: String,
         telefono: String,
@@ -31,5 +30,5 @@ interface UsuarioRepository {
 
     suspend fun deleteUsuario(id: String)
 
-    //suspend fun login(mail: String, psw: String): Usuario?
+    suspend fun login(mail: String, psw: String): Usuario?
 }
