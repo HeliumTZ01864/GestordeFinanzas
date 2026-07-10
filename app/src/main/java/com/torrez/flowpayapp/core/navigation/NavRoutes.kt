@@ -7,6 +7,8 @@ object NavRoutes {
     const val INICIO = "Inicio"
     const val LOGIN = "Login"
     const val REGISTRO = "registro"
+    const val TERMINOS = "terminos"
+    const val RECUPERAR = "recuperar"
     fun getTitle(
         route: String?
     ): String {
@@ -23,6 +25,10 @@ object NavRoutes {
                 "Pantalla Perfil"
             route == REGISTRO ->
                 "Pantalla Registro"
+            route == TERMINOS ->
+                "Pantalla terminos"
+            route == RECUPERAR ->
+                "Pantalla Recuperar Contraseña"
             else ->
                 "Flow App GG"
         }

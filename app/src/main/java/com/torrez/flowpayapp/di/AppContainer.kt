@@ -1,5 +1,6 @@
 package com.torrez.flowpayapp.di
 
+import com.torrez.flowpayapp.core.session.SessionManager
 import com.torrez.flowpayapp.presentation.screens.Login.LoginViewModel
 import com.torrez.flowpayapp.presentation.screens.Perfil.PerfilViewModel
 import com.torrez.flowpayapp.presentation.screens.Registro.RegistroViewModel
@@ -36,10 +37,19 @@ class AppContainer {
         //EditUserViewModel(useCaseModule.usuarioUseCaseModule)
     }
     val perfilModelModule by lazy {
-        PerfilViewModel(useCaseModule.usuarioUseCaseModule)
+        PerfilViewModel(
+            useCaseModule.usuarioUseCaseModule,
+            sessionManager = sessionManager
+            )
+    }
+    val loginModelModule by lazy {
+        LoginViewModel(
+            useCaseModule.usuarioUseCaseModule,
+            sessionManager = sessionManager
+        )
     }
 
-    val loginModelModule by lazy {
-        LoginViewModel(useCaseModule.usuarioUseCaseModule)
+    val sessionManager by lazy {
+        SessionManager()
     }
 }

@@ -30,6 +30,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -41,6 +42,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -51,6 +53,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.torrez.flowpayapp.core.navigation.NavRoutes
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +63,17 @@ fun PerfilScreen(
     navController: NavController
 ){
     val uiState by vm.uiState.collectAsState()
-    val usuario = uiState.usuarioLogueado
+    val usuario = uiState.usuario
+
+    if (uiState.isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
 
     if (usuario == null) {
         Box(
@@ -133,8 +146,9 @@ fun PerfilScreen(
 
             OutlinedButton(
                 onClick = {
-                    navController.navigate("login") {
-                        popUpTo("home") {
+                    vm.cerrarSesion()
+                    navController.navigate(NavRoutes.LOGIN) {
+                        popUpTo(0) {
                             inclusive = true
                         }
                     }

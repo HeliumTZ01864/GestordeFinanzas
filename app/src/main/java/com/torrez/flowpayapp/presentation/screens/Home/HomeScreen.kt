@@ -51,7 +51,7 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    
+    navController: NavController
 ) {
 
     var esGasto by remember {

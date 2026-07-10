@@ -2,6 +2,7 @@ package com.torrez.flowpayapp.presentation.screens.Perfil
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.torrez.flowpayapp.core.session.SessionManager
 import com.torrez.flowpayapp.domain.usecase.UsuarioUseCases
 import com.torrez.flowpayapp.presentation.screens.UsuarioUiEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,86 +13,90 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PerfilViewModel (
-    private val useCases: UsuarioUseCases
+    private val useCases: UsuarioUseCases,
+    private val sessionManager: SessionManager
 ): ViewModel(){
     private val _uiState =
-        MutableStateFlow(
-            PerfilUiState()
-        )
+        MutableStateFlow(PerfilUiState())
 
     val uiState =
         _uiState.asStateFlow()
 
-    private val _event =
-        MutableSharedFlow<String>()
+    init {
+        observarSesion()
+    }
 
-    val event =
-        _event.asSharedFlow()
+    private fun observarSesion() {
 
-    fun loadUsuario(
-        id: String
-    ) {
         viewModelScope.launch {
-            try {
-                _uiState.value =
-                    _uiState.value.copy(
-                        isLoading = true
-                    )
-                val usuario =
-                    useCases.getUsuarioById(id)
 
-                _uiState.value =
-                    _uiState.value.copy(
+            sessionManager.usuarioActual.collect { usuario ->
+
+                _uiState.update {
+                    it.copy(
                         usuario = usuario,
                         isLoading = false
                     )
-            }catch (e : Exception){
-                _uiState.value =
-                    _uiState.value.copy(
-                        isLoading = false,
-                        errorMessage = e.message
-                    )
-
-                _event.emit(
-                    e.message
-                        ?: "Error al cargar libro"
-                )
+                }
             }
         }
     }
 
-    fun login(mail: String, psw: String) {
-        viewModelScope.launch {
-            try {
-                _uiState.update {
-                    it.copy(isLoading = true)
-                }
-                val usuario = useCases.loginUsuario(mail, psw)
+    fun actualizarDatosUsuario() {
 
-                if (usuario != null) {
-                    _uiState.update {
-                        it.copy(
-                            usuarioLogueado = usuario
-                        )
-                    }
-                    _event.emit(UsuarioUiEvent.LoginSuccess.toString())
-                } else {
-                    _event.emit(UsuarioUiEvent.MostrarSnackbar("Correo o contraseña incorrectos").toString())
-                }
-            } catch (e: Exception) {
-                _event.emit(UsuarioUiEvent.MostrarSnackbar(e.message ?: "Error al iniciar sesión").toString())
-            } finally {
+        val usuarioActual = uiState.value.usuario ?: return
+
+        viewModelScope.launch {
+
+            try {
+
                 _uiState.update {
-                    it.copy(isLoading = false)
+                    it.copy(
+                        isLoading = true,
+                        errorMessage = null
+                    )
+                }
+
+                val usuarioActualizado = useCases.getUsuarioById(
+                    usuarioActual.id
+                )
+
+                if (usuarioActualizado != null) {
+
+                    sessionManager.iniciarSesion(
+                        usuarioActualizado
+                    )
+                }
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false
+                    )
+                }
+
+            } catch (e: Exception) {
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message
+                            ?: "Error al cargar el perfil"
+                    )
                 }
             }
         }
+    }
+
+    fun cerrarSesion() {
+        sessionManager.cerrarSesion()
     }
 
     fun clearError() {
-        _uiState.value =
-            _uiState.value.copy(
+
+        _uiState.update {
+            it.copy(
                 errorMessage = null
             )
+        }
     }
 }
