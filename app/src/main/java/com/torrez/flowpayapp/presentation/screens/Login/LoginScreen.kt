@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -21,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +51,7 @@ fun LoginScreen(
     var correo by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val uiState by vm.uiState.collectAsState()
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -65,18 +69,28 @@ fun LoginScreen(
                 }
 
                 is UsuarioUiEvent.LoginSuccess -> {
-                    navController.navigate(NavRoutes.HOME)
+                    navController.navigate(NavRoutes.HOME){
+                        popUpTo(NavRoutes.LOGIN) {
+                            inclusive = true
+                        }
+                    }
                 }
 
                 else -> {}
             }
         }
     }
-
-
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState
+            )
+        }
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
         ) {
 
             Column(
@@ -133,6 +147,8 @@ fun LoginScreen(
                     value = correo,
                     onValueChange = { correo = it },
                     label = { Text("Correo") },
+                    enabled = !uiState.isLoading,
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -141,10 +157,10 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = {
-                        Text("Contraseña")
-                    },
+                    label = { Text("Contraseña") },
                     visualTransformation = PasswordVisualTransformation(),
+                    enabled = !uiState.isLoading,
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -167,7 +183,7 @@ fun LoginScreen(
 
                     TextButton(
                         onClick = {
-                            navController.navigate("recuperar")
+                            navController.navigate(NavRoutes.RECUPERAR)
                         }
                     ) {
                         Text("Recuperar contraseña")
@@ -185,6 +201,7 @@ fun LoginScreen(
                             password
                         )
                     },
+                    enabled = !uiState.isLoading,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Black,
                         contentColor = Color.White
@@ -192,8 +209,20 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(0.8f)
                 ) {
 
-                    Text("Iniciar Sesión")
+                    if (uiState.isLoading) {
+
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(22.dp),
+                            strokeWidth = 2.dp,
+                            color = Color.White
+                        )
+
+                    } else {
+
+                        Text("Iniciar Sesión")
+                    }
                 }
             }
         }
     }
+}

@@ -2,6 +2,7 @@ package com.torrez.flowpayapp.presentation.screens.Login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.torrez.flowpayapp.core.session.SessionManager
 import com.torrez.flowpayapp.domain.usecase.UsuarioUseCases
 import com.torrez.flowpayapp.presentation.screens.UsuarioUiEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel (
-    private val useCases: UsuarioUseCases
+    private val useCases: UsuarioUseCases,
+    private val sessionManager: SessionManager
 ): ViewModel(){
     private val _uiState =
         MutableStateFlow(
@@ -23,7 +25,7 @@ class LoginViewModel (
         _uiState.asStateFlow()
 
     private val _event =
-        MutableSharedFlow<String>()
+        MutableSharedFlow<UsuarioUiEvent>()
 
     val event =
         _event.asSharedFlow()
@@ -37,17 +39,18 @@ class LoginViewModel (
                 val usuario = useCases.loginUsuario(mail, psw)
 
                 if (usuario != null) {
+                    sessionManager.iniciarSesion(usuario)
                     _uiState.update {
                         it.copy(
                             usuarioLogueado = usuario
                         )
                     }
-                    _event.emit(UsuarioUiEvent.LoginSuccess.toString())
+                    _event.emit(UsuarioUiEvent.LoginSuccess)
                 } else {
-                    _event.emit(UsuarioUiEvent.MostrarSnackbar("Correo o contraseña incorrectos").toString())
+                    _event.emit(UsuarioUiEvent.MostrarSnackbar("Correo o contraseña incorrectos"))
                 }
             } catch (e: Exception) {
-                _event.emit(UsuarioUiEvent.MostrarSnackbar(e.message ?: "Error al iniciar sesión").toString())
+                _event.emit(UsuarioUiEvent.MostrarSnackbar(e.message ?: "Error al iniciar sesión"))
             } finally {
                 _uiState.update {
                     it.copy(isLoading = false)
